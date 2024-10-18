@@ -1,0 +1,42 @@
+.model {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+
+#response {
+  margin: auto;
+  text-align: center;
+  align-content: center;
+  height: 200px;
+  width: 400px;
+  color: black;
+}
+
+#questionForm {
+  display: flex;
+  margin: auto;
+  width: 650px;
+  padding: 5px;
+  margin-top: 20px; 
+}
+
+#search-input {
+  background-color:#6fdfea ;
+  height: 35px;
+  width: 650px;
+  border: none;
+  outline: none;
+}
+
+.search-btn {
+  height: 38px;
+  cursor: pointer;
+  padding: 5px 15px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 2px 5px 5px 2px;
+}

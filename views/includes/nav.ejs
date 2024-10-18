@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/vitals.css" />
+    <link rel="stylesheet" href="/css/ml-model.css" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <div class="popupButton">
+          <button class="button-28" role="button">Parameters</button>
+        </div>
+
+        <div class="headings">
+          <li><a href="vitals">Vitals</a></li>
+          <li><a href="ml-model">ML-Model</a></li>
+          <li><a href="about">About</a></li>
+        </div>
+
+        <div class="modeDisplay">
+          <p class="status">
+            Current Mode:<% if (mode) { %> <%= mode %> <% } else { %> none <% }
+            %>
+          </p>
+        </div>
+      </ul>
+    </nav>
+
+    <div class="login-box" id="popup">
+      <h2>Parameters</h2>
+      <form id="popupForm" action="/submit" method="POST">
+        <div class="user-box">
+          <input type="text" name="username" required />
+          <label>Username</label>
+        </div>
+        <div class="user-box">
+          <input type="text" name="age" required />
+          <label>Age</label>
+        </div>
+        <input type="hidden" name="mode" id="selectedMode" required />
+        <div class="user-box">
+          <label>Mode</label>
+          <div class="dropdown">
+            <button
+              type="button"
+              onclick="toggleDropdown()"
+              class="dropbtn"
+              id="dropdownHeading"
+            >
+              Select Option
+            </button>
+            <div id="myDropdown" class="dropdown-content">
+              <a onclick="selectOption('Still')">Still</a>
+              <a onclick="selectOption('Running')">Running</a>
+              <a onclick="selectOption('Sleeping')">Sleeping</a>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="close">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Submit
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .querySelector(".button-28")
+        .addEventListener("click", function () {
+          document.querySelector(".login-box").style.display = "block";
+        });
+
+      document.querySelector(".close").addEventListener("click", function () {
+        document.querySelector(".login-box").style.display = "none";
+      });
+
+      function toggleDropdown() {
+        var dropdown = document.getElementById("myDropdown");
+        dropdown.classList.toggle("show");
+      }
+
+      function selectOption(option) {
+        document.getElementById("selectedMode").value = option;
+        var dropdownHeading = document.getElementById("dropdownHeading");
+        dropdownHeading.innerHTML = option;
+        toggleDropdown();
+        localStorage.setItem("mode", option);
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function (event) {
+        if (!event.target.matches(".dropbtn")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+
+      window.onload = function () {
+        var option = localStorage.getItem("mode");
+        if (option == "Still")
+          document.querySelector(".navbar").style.backgroundColor = "#4CAF50";
+        else if (option == "Running")
+          document.querySelector(".navbar").style.backgroundColor = "#FF5733";
+        else if (option == "Sleeping")
+          document.querySelector(".navbar").style.backgroundColor = "#6A5ACD";
+      };
+    </script>
+  </body>
+</html>

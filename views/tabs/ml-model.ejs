@@ -1,0 +1,46 @@
+<%- include('../includes/nav.ejs') %>
+<div class="model">
+
+<div id="response">
+    <!-- Response from ML model will be displayed here -->
+</div>
+
+
+<form action='/ask' method="POST" id="questionForm">
+  <input type="text" id="search-input" placeholder="Search..." />
+  <button type="submit" class="search-btn">&#x27A4;</button>
+</form>
+</div>
+<script>
+  document
+    .getElementById("questionForm")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault(); // Prevent the default form submission
+      try {
+        const question = document.getElementById("search-input").value;
+        console.log(question); // Log the question for debugging
+
+        const response = await fetch('/ask', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+      
+        const data = await response.json();
+        console.log(data);
+        document.getElementById("response").innerText = "answer:      "+data.answer+'\n'+"score:     "+data.score;
+        document.getElementById("search-input").value = ""; // Clear the input field
+      } catch (error) {
+        console.log(error); 
+      }
+    });
+</script>
+</body>
+</html>
